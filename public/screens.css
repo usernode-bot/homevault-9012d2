@@ -1,0 +1,71 @@
+/* The screens the spec drew, carried over by the platform before the first
+   version was built (screen 1 is public/index.html's main screen; screen 2,
+   if any, its <template data-spec-screen="2">). Colours are the design kit's
+   tokens, rgb(var(--accent)), so they follow the light and the dark look. */
+
+/* Each screen is one centred column: the phone width it was drawn at grows
+   to a readable column on a wider window, never rows and buttons stretched
+   across the window. Remove this only for an app that fills the window by
+   design, such as a map. */
+[data-spec-screen] {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.hv {
+  background: rgb(var(--ground));
+  color: rgb(var(--fg));
+  min-height: 1000px;
+  width: 390px;
+  box-sizing: border-box;
+  padding: 20px 16px 32px;
+  font-family: ui-rounded,system-ui,-apple-system,sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.hv * {box-sizing:border-box}
+
+.hv h1 {font-size:28px;line-height:36px;font-weight:700;margin:0}
+
+.hv p {margin:0}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.small {font-size:14px;line-height:20px}
+
+.muted {color:rgb(var(--muted))}
+
+.vault {display:flex;gap:16px;align-items:center;background:rgb(var(--surface));border:1px solid rgb(var(--line));border-radius:12px;padding:16px;margin-bottom:16px}
+
+.vault b {font-size:20px;line-height:28px;font-weight:600;display:block}
+
+.btn-primary,.btn-secondary {display:inline-flex;min-height:44px;min-width:44px;align-items:center;justify-content:center;gap:8px;border-radius:8px;padding:0 16px;font:500 16px ui-rounded,system-ui,sans-serif}
+
+.btn-primary {background:rgb(var(--accent));color:rgb(var(--on-accent));border:0;width:100%}
+
+.btn-secondary {background:rgb(var(--surface));color:rgb(var(--fg));border:1px solid rgb(var(--line))}
+
+.section-label {font-size:14px;line-height:20px;font-weight:500;color:rgb(var(--muted));margin:24px 4px 8px}
+
+.list {list-style:none;margin:0;padding:0;border:1px solid rgb(var(--line));border-radius:12px;background:rgb(var(--surface));overflow:hidden}
+
+.list-row {display:flex;align-items:center;gap:12px;min-height:44px;padding:12px 16px;border-top:1px solid rgb(var(--line))}
+
+.list-row:first-child {border-top:0}
+
+.ic {width:40px;height:40px;border-radius:8px;background:rgb(var(--raised));display:flex;align-items:center;justify-content:center;flex:none;color:rgb(var(--accent))}
+
+.mid {flex:1;min-width:0}
+
+.mid .n {font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.tag {display:inline-flex;align-items:center;gap:4px;font-size:14px;line-height:20px;color:rgb(var(--muted))}
+
+.sh {width:44px;height:44px;border-radius:8px;border:1px solid rgb(var(--line));background:rgb(var(--surface));display:flex;align-items:center;justify-content:center;color:rgb(var(--fg));flex:none}

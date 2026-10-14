@@ -40,6 +40,7 @@
     --danger: 185 28 28;
     --on-danger: 255 255 255;
     --focus: 13 148 136;      /* the keyboard focus ring */
+    --amber: 180 83 9; /* from the spec's screens */
   }
   .dark {
     --ground: 12 10 9;
