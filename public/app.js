@@ -15,9 +15,11 @@
   var el = {
     username: $('hv-username'),
     demoNote: $('hv-demo-note'),
+    meter: $('vault-meter'),
     arc: $('hv-meter-arc'),
     used: $('hv-used'),
     free: $('hv-free'),
+    note: $('hv-note'),
     upload: $('hv-upload'),
     uploadLabel: $('hv-upload-label'),
     fileInput: $('hv-file-input'),
@@ -27,12 +29,14 @@
     empty: $('hv-empty'),
     emptyUpload: $('hv-empty-upload'),
     files: $('hv-files'),
+    filesLabel: $('hv-files-label'),
     shared: $('hv-shared'),
+    sharedLabel: $('hv-shared-label'),
     shareSheet: $('hv-share-sheet'),
     sharedSheet: $('hv-shared-sheet'),
   };
 
-  var state = { data: null };
+  var state = { data: null, loading: false };
   var shareCurrent = null;
   var sharedCurrent = null;
 
@@ -68,13 +72,26 @@
     '<div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p>' +
     '<p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>';
 
+  /* The screen's main parts, which the error state hides and the others show. */
+  function showMain(show) {
+    el.meter.hidden = !show;
+    el.filesLabel.hidden = !show;
+    el.sharedLabel.hidden = !show;
+    el.files.hidden = !show;
+    el.shared.hidden = !show;
+  }
+
   function renderLoading() {
+    state.loading = true;
+    showMain(true);
     el.arc.setAttribute('stroke-dashoffset', '251');
     el.used.innerHTML = '<span class="skeleton sk-line sk-used"></span>';
     el.free.innerHTML = '<span class="skeleton sk-line sk-free"></span>';
+    el.note.hidden = true;
     el.files.innerHTML = SKELETON_ROW + SKELETON_ROW + SKELETON_ROW;
     el.shared.innerHTML = SKELETON_ROW + SKELETON_ROW + SKELETON_ROW;
-    el.upload.disabled = true;
+    el.upload.hidden = false;
+    el.upload.disabled = false; // full colour while loading; pick() waits for the vault
     el.uploadLabel.textContent = 'Upload a file';
     el.error.hidden = true;
     el.empty.hidden = true;
@@ -82,15 +99,14 @@
   }
 
   function renderError() {
+    state.loading = false;
+    showMain(false);
     el.error.hidden = false;
     el.empty.hidden = true;
     el.demoNote.hidden = true;
-    el.upload.hidden = false;
-    el.upload.disabled = true;
+    el.upload.hidden = true;
     el.used.textContent = '';
     el.free.textContent = '';
-    el.files.innerHTML = '';
-    el.shared.innerHTML = '';
   }
 
   /* ── Rendering ── */
@@ -98,6 +114,7 @@
     var used = d.usedBytes;
     var full = used >= LIMIT_BYTES;
     var frac = Math.min(used / LIMIT_BYTES, 1);
+    el.note.hidden = false;
     el.arc.setAttribute('stroke-dashoffset', String(Math.round(251 * (1 - frac))));
     if (full) {
       el.used.textContent = 'Vault full';
@@ -141,6 +158,10 @@
   }
 
   function render(d) {
+    state.loading = false;
+    showMain(true);
+    el.error.hidden = true;
+    el.upload.hidden = false;
     el.username.textContent = d.username || '';
     el.demoNote.hidden = !d.demo;
     renderMeter(d);
@@ -152,6 +173,7 @@
     el.uploadLabel.textContent = 'Upload a file';
 
     el.files.innerHTML = '';
+    if (empty) el.files.appendChild(el.empty); // the message lives inside the list card
     d.files.forEach(function (f) {
       el.files.appendChild(row(
         IMAGE_RE.test(f.name) ? PIC_ICON : PAGE_ICON,
@@ -222,7 +244,7 @@
   }
 
   /* ── Upload ── */
-  function pick() { el.fileInput.click(); }
+  function pick() { if (state.loading) return; el.fileInput.click(); }
   el.upload.addEventListener('click', pick);
   el.emptyUpload.addEventListener('click', pick);
 

@@ -112,7 +112,7 @@
     <path d="M48 30v8M48 58v8M30 48h8M58 48h8" stroke="rgb(var(--muted))" stroke-width="2" stroke-linecap="round"/>
     <circle cx="48" cy="48" r="5" fill="rgb(var(--amber))" stroke="none"/>
     </svg>
-    <div><b id="hv-used"><span class="skeleton sk-line sk-used"></span></b><p class="small muted" id="hv-free"><span class="skeleton sk-line sk-free"></span></p><p class="small muted">Uploads stop when the vault is full</p></div>
+    <div><b id="hv-used"><span class="skeleton sk-line sk-used"></span></b><p class="small muted" id="hv-free"><span class="skeleton sk-line sk-free"></span></p><p class="small muted" id="hv-note" hidden>Uploads stop when the vault is full</p></div>
     </div>
     <button class="btn-primary" id="hv-upload" disabled><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><span id="hv-upload-label">Upload a file</span></button>
     <input type="file" id="hv-file-input" hidden>
@@ -121,17 +121,17 @@
       <p>Couldn't open your vault. Your files are safe.</p>
       <button class="btn-secondary" id="hv-retry">Retry</button>
     </div>
-    <div id="hv-empty" class="state-empty" hidden>
+    <p class="section-label" id="hv-files-label">Your files</p>
+    <ul class="list" id="hv-files">
+    <li id="hv-empty" class="state-empty" hidden>
       <p>Your vault is empty. Upload your first file, up to 100 MB in all.</p>
       <button class="btn-primary" id="hv-empty-upload">Upload a file</button>
-    </div>
-    <p class="section-label">Your files</p>
-    <ul class="list" id="hv-files">
+    </li>
     <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
     <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
     <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
     </ul>
-    <p class="section-label">Shared with you</p>
+    <p class="section-label" id="hv-shared-label">Shared with you</p>
     <ul class="list" id="hv-shared">
     <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
     <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>

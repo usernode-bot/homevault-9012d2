@@ -44,6 +44,10 @@
 
 .vault {display:flex;gap:16px;align-items:center;background:rgb(var(--surface));border:1px solid rgb(var(--line));border-radius:12px;padding:16px;margin-bottom:16px}
 
+.vault > div {flex:1;min-width:0} /* the text takes the rest of the card, so the note wraps in two balanced lines */
+
+#hv-note {text-wrap:balance}
+
 .vault b {font-size:20px;line-height:28px;font-weight:600;display:block}
 
 .btn-primary,.btn-secondary {display:inline-flex;min-height:44px;min-width:44px;align-items:center;justify-content:center;gap:8px;border-radius:8px;padding:0 16px;font:500 16px ui-rounded,system-ui,sans-serif}
@@ -52,7 +56,9 @@
 
 .btn-secondary {background:rgb(var(--surface));color:rgb(var(--fg));border:1px solid rgb(var(--line))}
 
-.section-label {font-size:14px;line-height:20px;font-weight:500;color:rgb(var(--muted));margin:24px 4px 8px}
+/* .hv .section-label, not .section-label: .hv p {margin:0} above is more
+   specific (0,1,1) and would flatten these margins to 0. */
+.hv .section-label {font-size:14px;line-height:20px;font-weight:500;color:rgb(var(--muted));margin:24px 4px 8px}
 
 .list {list-style:none;margin:0;padding:0;border:1px solid rgb(var(--line));border-radius:12px;background:rgb(var(--surface));overflow:hidden}
 
@@ -83,6 +89,9 @@
 .sk-ic {width:22px;height:22px;border-radius:6px}
 .sk-row {width:65%;height:16px}
 .sk-tag {width:45%;height:14px}
+
+/* On error the vault shows only this one surface card under the header. */
+#hv-error {background:rgb(var(--surface));border:1px solid rgb(var(--line));border-radius:12px;margin-top:24px}
 
 .sh:focus-visible,
 .choice:focus-visible {outline:2px solid rgb(var(--focus));outline-offset:2px}
