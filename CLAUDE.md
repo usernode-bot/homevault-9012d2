@@ -56,35 +56,6 @@ its silence is not proof the checkout is current. Inside Homeroom (its dev
 chat, and Homeroom bot's builds) the platform fixes the base commit, and none
 of this applies.
 
-## Starter template
-
-The screen this app currently ships — the "Starter template" hero with
-the app's thumbnail tile and the plain-English note on how the app gets
-built (by asking Homeroom bot) — is placeholder content from the
-Homeroom starter template, not product intent.
-
-When the user asks for their first real feature, REPLACE the template
-screen rather than building alongside it:
-
-- remove the `usernode-starter-notice@1` block in `public/index.html`
-  (both sentinel comments and everything between them),
-- rewrite `README.md` to describe the actual app.
-
-Keep the `usernode-dev-console@1` forwarder `<script>` when rewriting the
-HTML — that block is platform infrastructure, not template content. So is
-the bridge `<script>`. The design kit is not placeholder either: build the
-real app with it, and fill in "## Design" below.
-
-The screen has a light and a dark look and follows the viewer's Homeroom
-theme, switching live when they change it: the theme `<script>` right after
-the bridge tag sets a `dark` class on `<html>`. Keep that script, and give
-everything you build both looks (the design kit's colour tokens carry both), unless one
-fixed look is the point of this app, like a game's own scene; then say so
-under "## Design" below. Unless a request asks for one, add
-no theme picker: the viewer's Homeroom setting is the control. "The
-platform's light/dark theme inside the app frame" in the platform
-conventions has the details.
-
 If a rule below this line conflicts with the hosted conventions, the
 hosted conventions win. This file is **app-specific** — write down
 things about *this* app that belong in the repo: product intent,
@@ -95,24 +66,28 @@ tables you've marked private), etc.
 
 ## About HomeVault
 
-Wallet-based file storage and sharing for Homeroom
-
-_(add a sentence or two more of product context here so Claude Code has a
-shared understanding of what this app is for)_
+Wallet-based file storage and sharing for Homeroom. Every member gets one
+personal vault of 100 MB: they upload files, see a vault-door meter fill as
+space is used, and choose for each file who can open it — only them, every
+member of the project, or anyone holding its public link. Files other
+members have shared appear under "Shared with you", ready to download or
+report. This first version deliberately has no folders, search, renaming,
+previews or link expiry.
 
 ## Design
 
 This app's look. The first real version fills in the blanks; every later
 change follows it, and updates it when a request changes the look on purpose.
 
-- **Palette:** _(name the accent, any second colour and the neutrals, e.g.
-  "accent: tomato red; second: basil green; neutrals: warm greys")_
-- **Signature element:** _(the one thing on screen drawn from this app's
-  subject, which no other app would have)_
+- **Palette:** warm neutral greys; deep teal accent (light 15 118 110,
+  dark 45 212 191; on-accent white in the light look, dark teal 4 47 46 in
+  the dark one); one amber token (light 180 83 9, dark 251 191 36) used
+  only by the meter's fill.
+- **Signature element:** the vault-door meter — a ring that fills clockwise
+  with the space used, around a door wheel with four spokes and an amber
+  centre bolt.
 - **Type scale:** `text-title`, `text-heading`, `text-body`, `text-small`
-  _(change their sizes in `tailwind.config.js` if you must, not their number)_
-- **One fixed look:** _(only for an app drawn as its own scene, such as a
-  game: which look, and why. Otherwise delete this line.)_
+  _(change their sizes in `tailwind.config.js` if you must, not their number)_.
 
 The kit is in `styles/tailwind-input.css`: colour tokens with a light and
 a dark value (named in `tailwind.config.js`), and a few components
@@ -142,6 +117,15 @@ Re-theme by changing the token values there, keeping every text pair at
 
 ## App-specific conventions
 
-_(optional — e.g. "all currency values stored as integer cents, not
-floats"; "the `posts` table is append-only"; "avoid adding new
-dependencies"; etc.)_
+- The `files`, `file_chunks` and `reports` tables are all `staging:private`;
+  file bytes must never reach a staging clone.
+- Uploaded file bytes are kept in Postgres (`file_chunks`, 1 MB rows),
+  because the platform's file storage takes only images of up to 5 MB and a
+  vault holds any file up to a person's 100 MB.
+- Every download (member route and `/s/<token>` alike) answers
+  `application/octet-stream` with `Content-Disposition: attachment` and
+  `X-Content-Type-Options: nosniff`, so an uploaded file can never run on
+  the app's origin.
+- Staging demo data is written once per viewer (a `demo_seeds` marker, also
+  `staging:private`) behind `?demo=1`, and is only ever visible with that
+  flag: every query without it filters out `is_demo` rows, quota included.

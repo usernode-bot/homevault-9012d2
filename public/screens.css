@@ -69,3 +69,45 @@
 .tag {display:inline-flex;align-items:center;gap:4px;font-size:14px;line-height:20px;color:rgb(var(--muted))}
 
 .sh {width:44px;height:44px;border-radius:8px;border:1px solid rgb(var(--line));background:rgb(var(--surface));display:flex;align-items:center;justify-content:center;color:rgb(var(--fg));flex:none}
+
+/* Added for behaviour the drawn screen needs: ids, states and sheets. */
+
+.hv-demo-note {margin:0 0 12px}
+
+.hv-msg {color:rgb(var(--danger));margin:8px 4px 0}
+
+.sk-line {display:inline-block}
+
+.sk-used {width:120px;height:20px}
+.sk-free {width:168px;height:14px}
+.sk-ic {width:22px;height:22px;border-radius:6px}
+.sk-row {width:65%;height:16px}
+.sk-tag {width:45%;height:14px}
+
+.sh:focus-visible,
+.choice:focus-visible {outline:2px solid rgb(var(--focus));outline-offset:2px}
+
+/* The share and shared-file sheets (<dialog>). */
+.hv-sheet {background:rgb(var(--surface));color:rgb(var(--fg));border:1px solid rgb(var(--line));border-radius:16px;padding:20px 16px;width:min(92vw,26rem);margin:auto;max-height:85vh;box-shadow:0 8px 30px rgb(0 0 0 / 0.2)}
+
+.hv-sheet::backdrop {background:rgb(0 0 0 / 0.45)}
+
+.sheet-title {font-size:18px;line-height:26px;font-weight:600;margin:0 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.sheet-sub {margin:0 0 8px}
+
+.choice {display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;width:100%;min-height:44px;padding:8px 12px;margin:0 0 8px;border-radius:10px;border:1px solid rgb(var(--line));background:rgb(var(--surface));color:rgb(var(--fg));font:500 16px ui-rounded,system-ui,sans-serif;text-align:left;cursor:pointer}
+
+.choice[aria-pressed="true"] {border-color:rgb(var(--accent));color:rgb(var(--accent));box-shadow:inset 0 0 0 1px rgb(var(--accent))}
+
+.choice-sub {font-size:13px;line-height:18px;font-weight:400;color:rgb(var(--muted))}
+
+.hv-link-row {display:flex;gap:8px;margin:8px 0 4px}
+
+.hv-link-row .field {flex:1;min-width:0}
+
+.sheet-actions {display:flex;gap:8px;margin-top:12px}
+
+.sheet-actions .btn-secondary {flex:1;padding:0 8px}
+
+.sheet-btn-danger {color:rgb(var(--danger));border-color:rgb(var(--danger))}

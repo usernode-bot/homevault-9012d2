@@ -54,6 +54,7 @@
     --danger: 248 113 113;
     --on-danger: 69 10 10;
     --focus: 94 234 212;
+    --amber: 251 191 36; /* the meter's fill, dark look */
   }
   /* el.hidden = true hides an element even when a class gives it a display
      (flex, the components below). */

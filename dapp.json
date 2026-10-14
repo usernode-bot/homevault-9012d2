@@ -7,5 +7,9 @@
   "governance": {
     "preset": "you_or_the_group"
   },
-  "tests": []
+  "tests": [
+    { "name": "Vault loads", "path": "/", "expectSelector": "#vault-meter" },
+    { "name": "Populated demo", "path": "/?demo=1", "expectText": "Staging demo", "id": "vault-demo", "visual": true, "impact": ["public/**"] },
+    { "name": "Health", "path": "/health", "expectText": "ok" }
+  ]
 }
