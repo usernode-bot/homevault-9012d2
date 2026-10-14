@@ -1,27 +1,34 @@
 # HomeVault
 
-> **Starter template** — this repo was scaffolded by Homeroom Social
-> Vibecoding. Everything in it is placeholder example code until the
-> app's first real feature is built.
+Wallet-based file storage and sharing for Homeroom. Upload files to your own
+vault, watch a vault-door meter fill against your 100 MB of free storage, and
+choose who can open each file: only you, every member of the project, or
+anyone with its public link. Files other members shared appear under
+"Shared with you", ready to download or report.
 
-The scaffold is a small working demo that proves the plumbing works:
+## How it works
 
-- **Sign-in** — the server verifies the platform-issued user token
-  (an RS256 JWT) on every request, so the app already knows who is
-  using it. No accounts to build.
-- **Database** — the app has its own private Postgres database, ready
-  to store things.
-- **Styling** — Tailwind CSS, precompiled by `npm run build` during
-  image creation with either Kubernetes/Paketo or standalone Docker, in a
-  light and a dark look that follow the viewer's Homeroom theme.
+- **Sign-in** — the server verifies the platform-issued user token (an RS256
+  JWT) on every request. Members of the project are read from the platform's
+  member list.
+- **Storage** — uploaded file bytes are kept in the app's own Postgres
+  database (`file_chunks`, 1 MB rows), because the platform's file storage
+  takes only images of up to 5 MB. The `files`, `file_chunks` and `reports`
+  tables are `staging:private`.
+- **Public links** — `/s/<token>` serves a file to anyone who has the link,
+  signed in or not, always as a download (`application/octet-stream`,
+  `nosniff`), so an uploaded file can never run on the app's origin.
+- **Styling** — Tailwind CSS, precompiled by `npm run build` during image
+  creation, in a light and a dark look that follow the viewer's Homeroom
+  theme. The look is described in `CLAUDE.md` under "## Design".
 
-## Replacing the template
+## Staging demo
+
+On staging, open the app with `?demo=1` to see a populated vault: eight
+made-up files of your own (41.6 MB in all) and two files shared by made-up
+members, labelled "Staging demo". Everything works on them, and they never
+appear without `?demo=1`.
 
 To change this app, ask Homeroom bot: open the app on Homeroom, tap the
-Homeroom icon in the header, then **Suggest an improvement**, and describe
-the app you want in plain English. The template will be replaced with your
-real app. You can also run
-Claude Code against this repo directly; start with `CLAUDE.md`, which
-carries the app-specific notes and points at the platform rules.
-
-Once the real app exists, rewrite this README to describe it.
+Homeroom icon in the header, then **Suggest an improvement**. You can also
+run Claude Code against this repo directly; start with `CLAUDE.md`.

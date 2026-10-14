@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <script>
   // usernode-dev-console@1
   (function () {
@@ -27,7 +27,7 @@
             seen.add(val);
           }
           if (typeof val === 'function') return '[Function ' + (val.name || 'anonymous') + ']';
-          if (val instanceof Error) return val.stack || (val.name + ': ' + val.message);
+          if (val instanceof Error) return (val.stack || (val.name + ': ' + val.message));
           return val;
         });
       } catch (e) { try { return String(v); } catch (_) { return '[unserializable]'; } }
@@ -64,32 +64,21 @@
   })();
   </script>
   <title>HomeVault</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%237c3aed'/><circle cx='50' cy='50' r='18' fill='white'/></svg>">
-  <!-- Tailwind, PRECOMPILED for this app (was cdn.tailwindcss.com's
-       in-browser engine plus an inline tailwind.config here). The config
-       moved to tailwind.config.js in the repo root; npm run build compiles
-       it to public/tailwind.css with Docker or Paketo on every image build, so the
-       stylesheet is regenerated from THIS commit's markup every deploy and
-       can never drift behind the code. ~7 KB of CSS instead of a ~400 KB
-       engine, and no flash of unstyled content.
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%230f766e'/><circle cx='50' cy='50' r='34' fill='none' stroke='white' stroke-width='5'/><circle cx='50' cy='50' r='17' fill='white'/><path d='M50 26v10M50 64v10M26 50h10M64 50h10' stroke='white' stroke-width='5' stroke-linecap='round'/></svg>">
+  <!-- Tailwind, PRECOMPILED for this app. npm run build compiles
+       tailwind.config.js + styles/tailwind-input.css to public/tailwind.css
+       on every image build, so the stylesheet is regenerated from THIS
+       commit's markup every deploy and can never drift behind the code.
        Writing class names as whole literals is what keeps this working — a
-       class assembled from fragments at runtime (e.g. "bg-" + tone + "-500")
-       is invisible to the compiler. If you genuinely need runtime-generated
-       classes, swap this link for the platform-hosted engine instead:
-       <script src="/usernode-tailwind/v1/tailwind.js"></script> -->
+       class assembled from fragments at runtime is invisible to the compiler. -->
   <link rel="stylesheet" href="/tailwind.css">
-  <!-- The platform bridge, centrally hosted and loaded by RELATIVE path (the
-       handler in server.js serves it under a plain "node server.js"; the
-       platform's edge answers it everywhere else). Never vendor it and never
-       write a hostname in front of it.
-       It is NOT conditional on this app calling a bridge API: it is also how
-       the app ANSWERS the shell, so a scaffold without it is invisible to
-       anything that asks the frame a question. Offline launch is one of those.
-       Another is the page's colour: the bridge reports this document's opaque
-       ground to the shell (#1581), which is what makes the platform bar above
-       the app take the app's tone instead of the viewer's theme (#1945).
-       The bridge is also where the app learns the viewer's light/dark theme:
-       the script below reads it. -->
+  <link rel="stylesheet" href="/screens.css">
+  <!-- The platform bridge, centrally hosted and loaded by RELATIVE path.
+       Never vendor it and never write a hostname in front of it. It is NOT
+       conditional on this app calling a bridge API: it is also how the app
+       ANSWERS the shell, so a page without it is invisible to anything that
+       asks the frame a question. The bridge also reports the viewer's
+       light/dark theme, which the script below follows. -->
   <script src="/usernode-bridge/v1/bridge.js"></script>
   <!-- Follow the viewer's Homeroom theme (the bridge reports it), with the
        OS preference as the fallback outside Homeroom. -->
@@ -108,28 +97,78 @@
   </script>
 </head>
 <body class="min-h-screen bg-ground text-fg">
-  <!-- Built from the design kit in styles/tailwind-input.css: colour tokens
-       that are right in both looks, and components for buttons, fields,
-       lists, cards and data states. The real app keeps the kit; CLAUDE.md's
-       "## Design" says how. -->
-  <!-- (Named in prose on purpose: Tailwind compiles any class-name word in
-       these files, comments included, and the starter should ship only the
-       components its screen uses.) -->
-  <main class="mx-auto flex max-w-md flex-col gap-8 px-4 py-10">
-
-    <!-- usernode-starter-notice@1 — starter-template messaging. When building
-         the user's real app, replace this whole screen and delete this block,
-         both sentinel comments included. -->
-    <section class="card flex flex-col items-start gap-3">
-      <div class="flex h-20 w-20 items-center justify-center rounded-2xl border border-line bg-ground text-title">🗄️</div>
-      <span class="rounded-full bg-raised px-3 py-1 text-small font-medium text-muted">Starter template</span>
-      <h1 class="text-title">HomeVault</h1>
-      <p class="text-body text-muted">Welcome to your new app! Everything on this screen is placeholder content that came with it.</p>
-      <p class="text-body text-muted">To change this app, ask Homeroom bot: tap the <strong class="font-semibold text-fg">Homeroom icon</strong>, then <strong class="font-semibold text-fg">Suggest an improvement</strong>. Describe what you'd like in plain English, and it will be turned into your real app.</p>
-    </section>
-    <!-- /usernode-starter-notice@1 -->
-
-    <p class="text-center text-small text-muted">Built on Homeroom. This template screen disappears once you build your real app.</p>
-  </main>
+  <!-- usernode-spec-screens@1: the screen the spec drew. Changed only where
+       behaviour needs it: ids and hooks for public/app.js, sample values
+       emptied, and the loading, empty and error states added. -->
+  <div data-spec-screen="1">
+    <div class="hv">
+    <div class="top"><h1>HomeVault</h1><span id="hv-username" class="small muted"></span></div>
+    <p id="hv-demo-note" class="small muted hv-demo-note" hidden>Staging demo: made-up files to try things on</p>
+    <div class="vault" id="vault-meter">
+    <svg id="hv-meter-svg" width="96" height="96" viewBox="0 0 96 96" fill="none" stroke-width="4" aria-hidden="true">
+    <circle cx="48" cy="48" r="40" stroke="rgb(var(--line))"/>
+    <circle id="hv-meter-arc" cx="48" cy="48" r="40" stroke="rgb(var(--amber))" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" transform="rotate(-90 48 48)"/>
+    <circle cx="48" cy="48" r="24" stroke="rgb(var(--muted))" stroke-width="2"/>
+    <path d="M48 30v8M48 58v8M30 48h8M58 48h8" stroke="rgb(var(--muted))" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="48" cy="48" r="5" fill="rgb(var(--amber))" stroke="none"/>
+    </svg>
+    <div><b id="hv-used"><span class="skeleton sk-line sk-used"></span></b><p class="small muted" id="hv-free"><span class="skeleton sk-line sk-free"></span></p><p class="small muted" id="hv-note" hidden>Uploads stop when the vault is full</p></div>
+    </div>
+    <button class="btn-primary" id="hv-upload" disabled><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><span id="hv-upload-label">Upload a file</span></button>
+    <input type="file" id="hv-file-input" hidden>
+    <p id="hv-msg" class="small hv-msg" hidden role="alert"></p>
+    <div id="hv-error" class="state-error" hidden>
+      <p>Couldn't open your vault. Your files are safe.</p>
+      <button class="btn-secondary" id="hv-retry">Retry</button>
+    </div>
+    <p class="section-label" id="hv-files-label">Your files</p>
+    <ul class="list" id="hv-files">
+    <li id="hv-empty" class="state-empty" hidden>
+      <p>Your vault is empty. Upload your first file, up to 100 MB in all.</p>
+      <button class="btn-primary" id="hv-empty-upload">Upload a file</button>
+    </li>
+    <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
+    <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
+    <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
+    </ul>
+    <p class="section-label" id="hv-shared-label">Shared with you</p>
+    <ul class="list" id="hv-shared">
+    <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
+    <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
+    <li class="list-row"><span class="ic"><span class="skeleton sk-line sk-ic"></span></span><div class="mid"><p class="n"><span class="skeleton sk-line sk-row"></span></p><p class="tag"><span class="skeleton sk-line sk-tag"></span></p></div></li>
+    </ul>
+    </div>
+  </div>
+  <!-- /usernode-spec-screens@1 -->
+  <!-- The share sheet: one file, who can open it, download, delete. -->
+  <dialog id="hv-share-sheet" class="hv-sheet">
+    <p class="sheet-title" id="hv-share-name"></p>
+    <p class="small muted sheet-sub">Who can open it</p>
+    <div role="radiogroup" aria-label="Who can open it" id="hv-share-choices">
+      <button type="button" class="choice" data-v="only_me">Only you</button>
+      <button type="button" class="choice" data-v="members">Vault members<span class="choice-sub">Everyone in this project</span></button>
+      <button type="button" class="choice" data-v="public">Public link</button>
+    </div>
+    <div class="hv-link-row" id="hv-link-row" hidden>
+      <input class="field" id="hv-link" readonly aria-label="Public link">
+      <button type="button" class="btn-secondary" id="hv-copy">Copy link</button>
+    </div>
+    <div class="sheet-actions">
+      <button type="button" class="btn-secondary" id="hv-share-download">Download</button>
+      <button type="button" class="btn-secondary sheet-btn-danger" id="hv-share-delete">Delete</button>
+      <button type="button" class="btn-secondary" id="hv-share-close">Close</button>
+    </div>
+  </dialog>
+  <!-- The shared-file sheet: download or report someone else's file. -->
+  <dialog id="hv-shared-sheet" class="hv-sheet">
+    <p class="sheet-title" id="hv-shared-name"></p>
+    <p class="small muted sheet-sub" id="hv-shared-meta"></p>
+    <div class="sheet-actions">
+      <button type="button" class="btn-secondary" id="hv-shared-download">Download</button>
+      <button type="button" class="btn-secondary" id="hv-shared-report">Report</button>
+      <button type="button" class="btn-secondary" id="hv-shared-close">Close</button>
+    </div>
+  </dialog>
+  <script src="/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,122 @@
+/* The screens the spec drew, carried over by the platform before the first
+   version was built (screen 1 is public/index.html's main screen; screen 2,
+   if any, its <template data-spec-screen="2">). Colours are the design kit's
+   tokens, rgb(var(--accent)), so they follow the light and the dark look. */
+
+/* Each screen is one centred column: the phone width it was drawn at grows
+   to a readable column on a wider window, never rows and buttons stretched
+   across the window. Remove this only for an app that fills the window by
+   design, such as a map. */
+[data-spec-screen] {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.hv {
+  background: rgb(var(--ground));
+  color: rgb(var(--fg));
+  min-height: 1000px;
+  width: 390px;
+  box-sizing: border-box;
+  padding: 20px 16px 32px;
+  font-family: ui-rounded,system-ui,-apple-system,sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.hv * {box-sizing:border-box}
+
+.hv h1 {font-size:28px;line-height:36px;font-weight:700;margin:0}
+
+.hv p {margin:0}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.small {font-size:14px;line-height:20px}
+
+.muted {color:rgb(var(--muted))}
+
+.vault {display:flex;gap:16px;align-items:center;background:rgb(var(--surface));border:1px solid rgb(var(--line));border-radius:12px;padding:16px;margin-bottom:16px}
+
+.vault > div {flex:1;min-width:0} /* the text takes the rest of the card, so the note wraps in two balanced lines */
+
+#hv-note {text-wrap:balance}
+
+.vault b {font-size:20px;line-height:28px;font-weight:600;display:block}
+
+.btn-primary,.btn-secondary {display:inline-flex;min-height:44px;min-width:44px;align-items:center;justify-content:center;gap:8px;border-radius:8px;padding:0 16px;font:500 16px ui-rounded,system-ui,sans-serif}
+
+.btn-primary {background:rgb(var(--accent));color:rgb(var(--on-accent));border:0;width:100%}
+
+.btn-secondary {background:rgb(var(--surface));color:rgb(var(--fg));border:1px solid rgb(var(--line))}
+
+/* .hv .section-label, not .section-label: .hv p {margin:0} above is more
+   specific (0,1,1) and would flatten these margins to 0. */
+.hv .section-label {font-size:14px;line-height:20px;font-weight:500;color:rgb(var(--muted));margin:24px 4px 8px}
+
+.list {list-style:none;margin:0;padding:0;border:1px solid rgb(var(--line));border-radius:12px;background:rgb(var(--surface));overflow:hidden}
+
+.list-row {display:flex;align-items:center;gap:12px;min-height:44px;padding:12px 16px;border-top:1px solid rgb(var(--line))}
+
+.list-row:first-child {border-top:0}
+
+.ic {width:40px;height:40px;border-radius:8px;background:rgb(var(--raised));display:flex;align-items:center;justify-content:center;flex:none;color:rgb(var(--accent))}
+
+.mid {flex:1;min-width:0}
+
+.mid .n {font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.tag {display:inline-flex;align-items:center;gap:4px;font-size:14px;line-height:20px;color:rgb(var(--muted))}
+
+.sh {width:44px;height:44px;border-radius:8px;border:1px solid rgb(var(--line));background:rgb(var(--surface));display:flex;align-items:center;justify-content:center;color:rgb(var(--fg));flex:none}
+
+/* Added for behaviour the drawn screen needs: ids, states and sheets. */
+
+.hv-demo-note {margin:0 0 12px}
+
+.hv-msg {color:rgb(var(--danger));margin:8px 4px 0}
+
+.sk-line {display:inline-block}
+
+.sk-used {width:120px;height:20px}
+.sk-free {width:168px;height:14px}
+.sk-ic {width:22px;height:22px;border-radius:6px}
+.sk-row {width:65%;height:16px}
+.sk-tag {width:45%;height:14px}
+
+/* On error the vault shows only this one surface card under the header. */
+#hv-error {background:rgb(var(--surface));border:1px solid rgb(var(--line));border-radius:12px;margin-top:24px}
+
+.sh:focus-visible,
+.choice:focus-visible {outline:2px solid rgb(var(--focus));outline-offset:2px}
+
+/* The share and shared-file sheets (<dialog>). */
+.hv-sheet {background:rgb(var(--surface));color:rgb(var(--fg));border:1px solid rgb(var(--line));border-radius:16px;padding:20px 16px;width:min(92vw,26rem);margin:auto;max-height:85vh;box-shadow:0 8px 30px rgb(0 0 0 / 0.2)}
+
+.hv-sheet::backdrop {background:rgb(0 0 0 / 0.45)}
+
+.sheet-title {font-size:18px;line-height:26px;font-weight:600;margin:0 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.sheet-sub {margin:0 0 8px}
+
+.choice {display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;width:100%;min-height:44px;padding:8px 12px;margin:0 0 8px;border-radius:10px;border:1px solid rgb(var(--line));background:rgb(var(--surface));color:rgb(var(--fg));font:500 16px ui-rounded,system-ui,sans-serif;text-align:left;cursor:pointer}
+
+.choice[aria-pressed="true"] {border-color:rgb(var(--accent));color:rgb(var(--accent));box-shadow:inset 0 0 0 1px rgb(var(--accent))}
+
+.choice-sub {font-size:13px;line-height:18px;font-weight:400;color:rgb(var(--muted))}
+
+.hv-link-row {display:flex;gap:8px;margin:8px 0 4px}
+
+.hv-link-row .field {flex:1;min-width:0}
+
+.sheet-actions {display:flex;gap:8px;margin-top:12px}
+
+.sheet-actions .btn-secondary {flex:1;padding:0 8px}
+
+.sheet-btn-danger {color:rgb(var(--danger));border-color:rgb(var(--danger))}
